@@ -1,0 +1,31 @@
+try {
+
+(function() {
+  try { dojo.require.call; } catch (exception) {
+    fw.runScript(fw.currentScriptDir + "/lib/lib.js");
+  }
+  dojo.require("fwlib.io");
+
+  var tempPath = Files.getTempFilePath(null) + ".png";
+
+  // export as PNG 24
+  var dom = fw.getDocumentDOM();
+  dom.setExportOptions({animAutoCrop:true,animAutoDifference:true,applyScale:false,colorMode:"24 bit",crop:false,cropBottom:0,cropLeft:0,cropRight:0,cropTop:0,ditherMode:"none",ditherPercent:100,exportFormat:"PNG",frameInfo:[  ],interlacedGIF:false,jpegQuality:80,jpegSelPreserveButtons:false,jpegSelPreserveText:true,jpegSelQuality:90,jpegSelQualityEnabled:false,jpegSmoothness:0,jpegSubsampling:0,localAdaptive:true,lossyGifAmount:0,macCreator:"",macFileType:"",name:"PNG 24",numCustomEntries:0,numEntriesRequested:0,numGridEntries:6,optimized:true,paletteEntries:null,paletteInfo:null,paletteMode:"adaptive",paletteTransparency:"none",percentScale:100,progressiveJPEG:false,savedAnimationRepeat:0,sorting:"none",useScale:true,webSnapAdaptive:false,webSnapTolerance:14,xSize:0,ySize:0});
+
+  dom.exportTo(tempPath, null);
+
+  var response = fwlib.io.request("http://img.sofanaranja.com/", {
+    method: "POST",
+    data: {
+      pageName: dom.pageName
+    },
+    fileData: {
+      file: tempPath
+    }
+  });
+  dom.clipCopyJsToExecute(response.responseText);
+})();
+
+} catch (exception) {
+  alert([exception, exception.lineNumber, exception.fileName].join("\n"));
+}
