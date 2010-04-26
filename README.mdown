@@ -1,0 +1,3 @@
+# Poster Fireworks Plugin
+
+This a plugin for Fireworks, used to upload images to a [Poster](http://github.com/bomberstudios/poster) server.
